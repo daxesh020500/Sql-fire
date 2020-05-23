@@ -1,0 +1,66 @@
+Airport:
++	  airport_id
+    airport_name
+	  gate_cost
+	  total_gates
+
+Airline:
++	  airline_id
+	  name
+	  value
+	  balance
+-	  base_airport_id
+
+Aircraft:
++   aircraft_id
+	  company
+	  model
+	  cost
+	  seats
+
+Fleet:
++   fleet_id
+-   aircraft_id
+-   airline_id
+
+Booked_gates:
++	  airline_id
++	  airport_id
+	  no_of_gates
+
+Routes:
++	  flight_no
++	  airline_id
+-	  destination_airport_id
+-	  fleet_id
+	  price
+
+Customer
++   customer_id
+    first_name
+    last_name
+    DOB
+
+Passenger
++   seat_no
+-   customer_id
+-   flight_no
+    class
+
+SELECT airline.name,
+       route.flight_no,
+       a.name,
+       b.name,
+       route.price,
+       aircraft.company, aircraft.model
+FROM airline
+NATURAL JOIN route,
+             airport a,
+             airport b,
+             fleet
+NATURAL JOIN route,
+             aircraft
+WHERE airline.airport_id = a.airport_id
+  AND route.dest_airport_id = b.airport_id
+  AND airline.airline_id = fleet.airline_id
+  AND aircraft.aircraft_id = fleet.aircraft_id
